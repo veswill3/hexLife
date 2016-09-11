@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game of Life - Hex</title>
+    <meta charset="utf-8" />
+
+    <script src="hexlife.js"></script>
+
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body onload="HexLife.init()">
+
+    <div>
+        <span id="start">
+            <button onclick="HexLife.step()">Step</button>
+            <button onclick="HexLife.startAnimate()">Start</button>
+        </span>
+        <span id="stop">
+            <button onclick="HexLife.stopAnimate()">Stop</button>
+        </span>
+        <span id="clear-and-rand">
+            <button onclick="HexLife.genMap()">Clear</button>
+            <button onclick="HexLife.genMap(true)">Random</button>
+        </span>
+        <button id="circleBtn" onclick="HexLife.startCircle()">Circle</button>
+    </div>
+
+    <canvas id="canvas" width="600" height="600"></canvas>
+
+</body>
+</html>
