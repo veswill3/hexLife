@@ -11,6 +11,7 @@ var HexLife = {
     // Hex constants
     DIRS: [[1,0],[1,-1],[0,-1],[-1,0],[-1,1],[0,1]],
     HEX_SIZE: 10,
+    MAP_WIDTH: 15,
     HEX_HEIGHT: 0,
     HEX_HORZ_SPACE: 0,
     offsetX: 0,
@@ -24,14 +25,31 @@ var HexLife = {
         this.genMap();
 
         document.addEventListener("keyup", function(e) {
-            console.log('keyup fired');
             if (e.keyCode === 32) { // space bar
                 if (HexLife.intervalID) {
                     HexLife.stopAnimate();
                 } else {
                     HexLife.startAnimate();
                 }
-                e.stopPropagation();
+                e.preventDefault();
+            }
+        });
+
+        canvas.addEventListener("mousedown", function(e) {
+            var x = e.clientX - canvas.offsetLeft;
+            var y = e.clientY - canvas.offsetTop;
+            var tile = HexLife.pixel2Tile(x, y);
+            HexLife.draggingCircle = tile; // attempt to detect if we are dragging a circle
+        });
+
+        canvas.addEventListener("mouseup", function(e) {
+            var x = e.clientX - canvas.offsetLeft;
+            var y = e.clientY - canvas.offsetTop;
+            var tile = HexLife.pixel2Tile(x, y);
+            if (HexLife.draggingCircle !== tile) {
+                // We are at a different tile than where the click started!
+                // we must be dragging out a circle
+                HexLife.drawingCircle = HexLife.draggingCircle;
             }
         });
 
@@ -85,20 +103,16 @@ var HexLife = {
     },
 
     genMap: function(random) {
-        if (random) {
-            console.log('generating random map');
-        }
         this.HEX_HEIGHT = Math.sqrt(3) / 2 * (2 * this.HEX_SIZE),
         this.HEX_HORZ_SPACE = (2 * this.HEX_SIZE) * 3 / 4,
         this.map = {};
         // Make a large hex shape
-        var size = 15;
         this.offsetX = this.HEX_SIZE + 3; // +3 is for line width
-        this.offsetY = -size * this.HEX_SIZE * 2 / 3 + 3;
-        var len = size * 2 + 1;
+        this.offsetY = -this.MAP_WIDTH * this.HEX_SIZE * 2 / 3 + 3;
+        var len = this.MAP_WIDTH * 2 + 1;
         for (var q = 0; q < len; q++) {
             for (var r = 0; r < len; r++) {
-                if (q + r >= size && q + r <= size * 3) {
+                if (q + r >= this.MAP_WIDTH && q + r <= this.MAP_WIDTH * 3) {
                     var tile;
                     if (random) {
                         var alive = Math.random() > 0.7;
@@ -247,4 +261,9 @@ HexLife.Tile.prototype.draw = function() {
         ctx.textAlign = "center";
         ctx.fillText(this.r + ',' + this.q, x, y + 5);
     }
+};
+
+HexLife.Tile.prototype.toString = function() {
+    var aliveText = this.alive ? "Alive" : "Dead";
+    return "[" + this.q + ", " + this.r + "] (" + aliveText + ")";
 };
