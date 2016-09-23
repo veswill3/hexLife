@@ -8,6 +8,7 @@ var HexLife = {
         "alive": "#256363",
         "dead":  "#202020" // same as background
     },
+    animationSpeed: 0,
     // Hex constants
     DIRS: [[1,0],[1,-1],[0,-1],[-1,0],[-1,1],[0,1]],
     HEX_SIZE: 10,
@@ -20,12 +21,13 @@ var HexLife = {
 
     init: function() {
         document.getElementById('stop').style.display = "none";
+        document.getElementById('speed').innerHTML = this.animationSpeed;
         var canvas = document.getElementById('canvas');
         this.context = canvas.getContext("2d");
         this.genMap();
 
         document.addEventListener("keyup", function(e) {
-            if (e.keyCode === 32) { // space bar
+            if (e.keyCode === 32) { // space bar to play and pause
                 if (HexLife.intervalID) {
                     HexLife.stopAnimate();
                 } else {
@@ -53,7 +55,6 @@ var HexLife = {
             }
         });
 
-        // toggle a cell on click
         canvas.addEventListener("click", function(e) {
             var x = e.clientX - canvas.offsetLeft;
             var y = e.clientY - canvas.offsetTop;
@@ -61,8 +62,10 @@ var HexLife = {
             if (tile) {
                 if (HexLife.drawingCircle) {
                     if (HexLife.drawingCircle === true) {
+                        // Starting to draw a circle
                         HexLife.drawingCircle = tile;
                     } else {
+                        // finishing drawing a circle
                         var center = HexLife.drawingCircle;
                         HexLife.drawingCircle = false;
                         var radius = HexLife.Tile.distance(center, tile);
@@ -71,10 +74,10 @@ var HexLife = {
                             circleTiles[i].alive = true;
                             circleTiles[i].draw();
                         }
-
                         document.getElementById('circleBtn').style.display = "";
                     }
                 } else {
+                    // toggle a cell on click
                     tile.alive = !tile.alive;
                     tile.draw();
                 }
@@ -148,9 +151,16 @@ var HexLife = {
         }
         document.getElementById('stop').style.display = "";
         document.getElementById('start').style.display = "none";
-        this.intervalID = setInterval(function() {
+
+        var simRunner = function() {
             HexLife.step();
-        }, 70);
+            if (HexLife.intervalID) {
+                setTimeout(simRunner, 70 - HexLife.animationSpeed);
+            }
+        };
+
+        this.intervalID = true;
+        simRunner();
     },
 
     stopAnimate: function() {
@@ -163,6 +173,11 @@ var HexLife = {
     startCircle: function() {
         document.getElementById('circleBtn').style.display = "none";
         this.drawingCircle = true;
+    },
+
+    changeSpeed: function(dir) {
+        this.animationSpeed += (dir * 10);
+        document.getElementById('speed').innerHTML = this.animationSpeed;
     },
 
     pixel2Tile: function(mouseX, mouseY) {
