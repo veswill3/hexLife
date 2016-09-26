@@ -27,7 +27,9 @@ var HexLife = {
         this.genMap();
 
         document.addEventListener("keyup", function(e) {
-            if (e.keyCode === 32) { // space bar to play and pause
+            if (e.keyCode === 39) { // -> arrow key to step
+                HexLife.step();
+            } else if (e.keyCode === 32) { // space bar to play and pause
                 if (HexLife.intervalID) {
                     HexLife.stopAnimate();
                 } else {

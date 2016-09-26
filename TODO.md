@@ -5,6 +5,8 @@ TODO
 - [ ] Allow user to edit JS for rule-of-life in the broswer
 - [ ] Allow user to alter color scheme
 - [ ] Allow user to save current settings (patterns, rules, colors, etc)
+- [ ] Add some style!
+- [ ] Make mobile friendly
 
 DONE
 ====
