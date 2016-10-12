@@ -8,7 +8,7 @@ var HexLife = {
         "alive": "#256363",
         "dead":  "#202020" // same as background
     },
-    animationSpeed: 0,
+    animationSpeed: 70,
     // Hex constants
     DIRS: [[1,0],[1,-1],[0,-1],[-1,0],[-1,1],[0,1]],
     HEX_SIZE: 10,
@@ -21,7 +21,7 @@ var HexLife = {
 
     init: function() {
         document.getElementById('stop').style.display = "none";
-        document.getElementById('speed').innerHTML = this.animationSpeed;
+        document.getElementById('speed').value = 200 - this.animationSpeed;
         var canvas = document.getElementById('canvas');
         this.context = canvas.getContext("2d");
         this.genMap();
@@ -113,7 +113,7 @@ var HexLife = {
         this.map = {};
         // Make a large hex shape
         this.offsetX = this.HEX_SIZE + 3; // +3 is for line width
-        this.offsetY = -this.MAP_WIDTH * this.HEX_SIZE * 2 / 3 + 3;
+        this.offsetY = -this.HEX_HEIGHT * (this.MAP_WIDTH - 1) / 2 + 3;
         var len = this.MAP_WIDTH * 2 + 1;
         for (var q = 0; q < len; q++) {
             for (var r = 0; r < len; r++) {
@@ -157,7 +157,7 @@ var HexLife = {
         var simRunner = function() {
             HexLife.step();
             if (HexLife.intervalID) {
-                setTimeout(simRunner, 70 - HexLife.animationSpeed);
+                setTimeout(simRunner, HexLife.animationSpeed);
             }
         };
 
@@ -177,9 +177,8 @@ var HexLife = {
         this.drawingCircle = true;
     },
 
-    changeSpeed: function(dir) {
-        this.animationSpeed += (dir * 10);
-        document.getElementById('speed').innerHTML = this.animationSpeed;
+    setSpeed: function(speed) {
+        this.animationSpeed = 200 - speed;
     },
 
     pixel2Tile: function(mouseX, mouseY) {
@@ -258,6 +257,7 @@ HexLife.Tile.prototype.getNeighbors = function() {
 
 HexLife.Tile.prototype.draw = function() {
     var ctx = HexLife.context;
+    // x,y is the center point of the hex
     var x = this.r * HexLife.HEX_HORZ_SPACE + HexLife.offsetX;
     var y = (this.q + this.r / 2) * HexLife.HEX_HEIGHT + HexLife.offsetY;
 

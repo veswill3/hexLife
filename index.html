@@ -24,12 +24,14 @@
         </span>
         <button id="circleBtn" onclick="HexLife.startCircle()">Circle</button>
 
-        <button onclick="HexLife.changeSpeed(-1)">-</button>
-        <span id="speed"></span>
-        <button onclick="HexLife.changeSpeed(1)">+</button>
+        <input type="range" id="speed" name="speed" style="width: 100px;"
+            min="0" max="200" step="10"
+            onchange="HexLife.setSpeed(this.value)" oninput="HexLife.setSpeed(this.value)">
     </div>
 
-    <canvas id="canvas" width="600" height="600"></canvas>
+    <div>
+        <canvas id="canvas" width="600" height="600"></canvas>
+    </div>
 
 </body>
 </html>
