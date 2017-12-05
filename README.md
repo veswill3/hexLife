@@ -3,7 +3,7 @@ hexLife
 
 Conway's Game of Life, implemented on a hexagonal grid. See it live at https://veswill3.github.io/hexLife/
 
----
+![A simple running example](simple_run.gif?raw=true "A simple running example")
 
 ##### TODO
 - [ ] Allow user to load a starting pattern
