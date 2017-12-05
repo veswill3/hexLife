@@ -264,7 +264,7 @@ HexLife.Tile.prototype.draw = function() {
     ctx.strokeStyle = HexLife.style.grid;
     ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.moveTo(x + HexLife.HEX_SIZE * Math.cos(0), y + HexLife.HEX_SIZE *  Math.sin(0));          
+    ctx.moveTo(x + HexLife.HEX_SIZE * Math.cos(0), y + HexLife.HEX_SIZE *  Math.sin(0));
     for (var i = 1; i <= 5;i += 1) {
         ctx.lineTo(x + HexLife.HEX_SIZE * Math.cos(i * 2 * Math.PI / 6), y + HexLife.HEX_SIZE * Math.sin(i * 2 * Math.PI / 6));
     }

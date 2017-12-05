@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Game of Life - Hex</title>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes, maximum-scale=1, user-scalable=no">
 
     <script src="hexlife.js"></script>
-
     <link href="style.css" rel="stylesheet" type="text/css" />
+
+    <title>Game of Life - Hex</title>
 </head>
 <body onload="HexLife.init()">
 
@@ -24,9 +25,17 @@
         </span>
         <button id="circleBtn" onclick="HexLife.startCircle()">Circle</button>
 
-        <input type="range" id="speed" name="speed" style="width: 100px;"
-            min="0" max="200" step="10"
-            onchange="HexLife.setSpeed(this.value)" oninput="HexLife.setSpeed(this.value)">
+        <input
+            type="range"
+            id="speed"
+            name="speed"
+            style="width: 100px;"
+            min="0"
+            max="200"
+            step="10"
+            onchange="HexLife.setSpeed(this.value)"
+            oninput="HexLife.setSpeed(this.value)"
+        >
     </div>
 
     <div>
